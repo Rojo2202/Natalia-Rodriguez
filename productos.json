@@ -1,0 +1,25 @@
+[{
+    "id": 1,
+    "img": "https://farmacityar.vteximg.com.br/arquivos/ids/205205-1000-1000/153323_shampoo-max-pro-v-control-caida-x-200-ml_imagen-1.jpg?v=637411427035330000",
+    "nombre": "shampoo",
+    "precio": 500
+},
+{
+    "id": 2,
+    "img": "https://farmacityar.vteximg.com.br/arquivos/ids/205228-1000-1000/153315_acondicionador-control-caida-x-200-ml_imagen-1.jpg?v=637411538281100000",
+    "nombre": "acondicionador",
+    "precio": 500
+},
+{
+    "id": 3,
+    "img": "https://www.sedal.com.ar/content/dam/unilever/sunsilk/argentina/pack_shot/7791293030845-1979343-png.png",
+    "nombre": "shampoo",
+    "precio": 500
+},
+{
+    "id": 4,
+    "img": "https://www.sedal.com.ar/content/dam/unilever/sunsilk/argentina/pack_shot/7791293030661-1966781-png.png",
+    "nombre": "acondicionador",
+    "precio": 500
+}
+]

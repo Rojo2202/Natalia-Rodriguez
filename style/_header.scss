@@ -1,0 +1,20 @@
+header {
+    max-height: 25%;
+    background-color: #1A1E25;
+    .nav-link {
+        color: #C299AC;
+        // transition: 1s;
+    }
+    .nav-link:hover {
+        color: #C299AC;
+        border-bottom: 1px #C299AC solid;
+    }  
+    img {
+        height: 10rem;
+    }
+    button{
+        i {
+            color: white;
+        }
+    }
+}

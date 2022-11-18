@@ -1,0 +1,65 @@
+h1 {
+    text-align: center;
+
+}
+.card-group{
+    // padding: 20px;
+    margin: 20px;
+}
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+        h5 {
+            text-transform: capitalize;
+            
+        }
+    margin: 6px;
+    border: none;
+        button {
+            background-color: #1A1E25;
+            color: #C299AC;
+                &:hover {
+                    background-color: #1A1E25;
+                    color: white
+            }
+        }
+}
+.card:hover {
+    background-color: rgba(44, 44, 44, 0.546);
+    transition: 1s;
+}
+.card img {
+    width: 16rem;
+}
+
+.carrito {
+    article {
+        display: flex;
+        flex-direction: row;
+        align-self: center;
+        justify-content: space-around;
+        border-bottom: 3px solid gray;
+        text-align: center;
+        margin: 16px;
+        padding: 16px;
+        p{
+            text-transform: capitalize;
+            text-align: center;
+        }
+    }
+}
+
+#finalizar {
+    background-color: #1A1E25;
+    color: #C299AC;
+    margin-bottom: 6px;
+        &:hover {
+        background-color: #1A1E25;
+        color: white
+    }
+}
+
+@import "header";
+@import "footer";

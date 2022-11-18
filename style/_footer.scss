@@ -1,0 +1,23 @@
+footer {
+    background-color: black;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    ul {
+        list-style: none;
+        // display: inline;
+        padding: 30px;
+    }
+}
+
+.icon-footer {
+    font-size: 3rem;
+    display: inline;
+    margin: 12px;
+}
+
+.icon-footer:hover {
+    color: #C299AC;
+    transition: 1s;
+}
