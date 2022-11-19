@@ -1,29 +1,19 @@
+
+// VARIABLES
+
+
 let productosJSON = [];
 let totalCarrito;
 let contenedor = document.querySelector(".productos");
 let botonFinalizar = document.getElementById("finalizar");
+// LA COMPRA
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let iconoCarrito = document.getElementById("icono-carrito")
-carrito.length != 0 && dibujarTabla();
+let carritoSeccion = document.querySelector(".carrito")
 
-function dibujarTabla() {
-  for (const producto of carrito) {
-    document.getElementById("tablabody").innerHTML += `
-        <tr>
-            <td>${producto.id}</td>
-            <td>${producto.nombre}</td>
-            <td>${producto.precio}</td>
-            <td><button class="btn btn-light" onclick="eliminar(event)">🗑️</button></td>
-        </tr>
-    `;
-  }
-  totalCarrito = carrito.reduce(
-    (acumulador, producto) => acumulador + producto.precio,
-    0
-  );
-  let infoTotal = document.getElementById("total");
-  infoTotal.innerText = "Total a pagar $: " + totalCarrito;
-}
+
+
+// carrito.length != 0 && dibujarTabla();
 
 function renderizarProds() {
   for (const producto of productosJSON) {
@@ -51,38 +41,24 @@ function renderizarProds() {
   });
 }
 
-function agregarAlCarrito(productoComprado) {
-  carrito.push(productoComprado);
-  console.table(carrito);
-
+function agregarAlCarrito( productoComprado ) {
+  carrito.push( productoComprado );
+  let {nombre , img } = productoComprado
   //sweet alert
   Swal.fire({
-    title: productoComprado.nombre,
+    title: nombre,
     text: "Agregado al carrito",
-    imageUrl: productoComprado.foto,
+    imageUrl: img,
     imageWidth: 200,
     imageHeight: 200,
-    imageAlt: productoComprado.nombre,
+    imageAlt: nombre,
     showConfirmButton: false,
     timer: 1500,
   });
-  document.getElementById("tablabody").innerHTML += `
-        <tr>
-            <td>${productoComprado.id}</td>
-            <td>${productoComprado.nombre}</td>
-            <td>${productoComprado.precio}</td>
-            <td><button class="btn btn-light" onclick="eliminar(event)"><i class="fa-solid fa-trash"></i></button></td>
-        </tr>
-    `;
-  totalCarrito = carrito.reduce(
-    (acumulador, producto) => acumulador + producto.precio,
-    0
-  );
-  let infoTotal = document.getElementById("total");
-  infoTotal.innerText = "Total a pagar $: " + totalCarrito;
   //storage
   localStorage.setItem("carrito", JSON.stringify(carrito));
 }
+
 
 function eliminar(ev) {
   let fila = ev.target.parentElement.parentElement;
@@ -101,7 +77,36 @@ function eliminar(ev) {
   localStorage.setItem("carrito", JSON.stringify(carrito));
 }
 
+iconoCarrito.onclick = () => {
 
+  Swal.fire({
+    title: '<strong>CARRITO</strong>',
+    html:
+      `<table class="table table-striped">
+      <thead>
+          <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Accion</th>
+          </tr>
+      </thead>
+      <tbody id="tablabody">
+          <!-- aqui tabla carrito -->
+      </tbody>
+  </table>`
+      ,
+    showCloseButton: true,
+    showCancelButton: true,
+    focusConfirm: false,
+    confirmButtonText:
+      '<i class="fa fa-thumbs-up"></i> Great!',
+    confirmButtonAriaLabel: 'Thumbs up, great!',
+    cancelButtonText:
+      '<i class="fa fa-thumbs-down"></i>',
+    cancelButtonAriaLabel: 'Thumbs down'
+  })
+}
 
 
 // rendizado de JSON
@@ -112,7 +117,10 @@ async function obtenerJSON() {
   productosJSON = data;
   renderizarProds();
 }
-//Cerrando al compra
+
+
+
+
 botonFinalizar.onclick = () => {
   if (carrito.length == 0) {
     Swal.fire({
