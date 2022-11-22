@@ -10,23 +10,46 @@ let botonFinalizar = document.getElementById("finalizar");
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let iconoCarrito = document.getElementById("icono-carrito")
 let carritoSeccion = document.querySelector(".carrito")
+let basura = document.getElementById("basura")
 
 
+
+const actualizarTotal = () => {
+  totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
+  let infoTotal = document.getElementById("total");
+  infoTotal.innerText=`Total:$${totalCarrito}`;
+}
 
 // carrito.length != 0 && dibujarTabla();
+function dibujarTabla(){
+  for(const producto of carrito){
+      document.getElementById("tablabody").innerHTML += `
+      <tr>
+          <td>${producto.id}</td>
+          <td>${producto.nombre}</td>
+          <td>${producto.precio}</td>
+          <td><button class = "btn btn-basura" onclick="eliminar(event)"><i class="fa-solid fa-trash basura"></i></button></td>
+      </tr>
+  `;
+  }
+  totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
+  let infoTotal = document.getElementById("total");
+  infoTotal.innerText="Total a pagar $: "+totalCarrito;
+}
+
 
 function renderizarProds() {
   for (const producto of productosJSON) {
     let { img, id, nombre, precio } = producto;
     contenedor.innerHTML += `
-        <div class="card">
+        <article class="card">
         <img src="${img}">
-        <div class="card-body">
-            <h5 class="card-title">${nombre}</h5>
-            <p class="card-text">$${precio}</p>
-            <button id = "btn${id}" class="btn">COMPRAR</button>
-        </div>
-        </div>
+          <div class="card-body">
+              <h5 class="card-title">${nombre}</h5>
+              <p class="card-text">$${precio}</p>
+              <button id = "btn${id}" class="btn">COMPRAR</button>
+          </div>
+        </article>
 `;
   }
 
@@ -55,6 +78,19 @@ function agregarAlCarrito( productoComprado ) {
     showConfirmButton: false,
     timer: 1500,
   });
+
+  document.getElementById("tablabody").innerHTML += `
+        <tr>
+            <td>${productoComprado.id}</td>
+            <td>${productoComprado.nombre}</td>
+            <td>${productoComprado.precio}</td>
+            <td><button class = "btn btn-basura" onclick="eliminar(event)"><i class="fa-solid fa-trash basura"></i></button></td>
+        </tr>
+    `;
+    totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
+    let infoTotal = document.getElementById("total");
+    infoTotal.innerText="Total a pagar $: "+totalCarrito;
+
   //storage
   localStorage.setItem("carrito", JSON.stringify(carrito));
 }
@@ -77,6 +113,8 @@ function eliminar(ev) {
   localStorage.setItem("carrito", JSON.stringify(carrito));
 }
 
+
+
 iconoCarrito.onclick = () => {
 
   Swal.fire({
@@ -94,18 +132,29 @@ iconoCarrito.onclick = () => {
       <tbody id="tablabody">
           <!-- aqui tabla carrito -->
       </tbody>
-  </table>`
+  </table>
+  <p id ="total">TOTAL:$</p>
+  `
+
       ,
     showCloseButton: true,
-    showCancelButton: true,
     focusConfirm: false,
-    confirmButtonText:
-      '<i class="fa fa-thumbs-up"></i> Great!',
-    confirmButtonAriaLabel: 'Thumbs up, great!',
-    cancelButtonText:
-      '<i class="fa fa-thumbs-down"></i>',
-    cancelButtonAriaLabel: 'Thumbs down'
+    confirmButtonText: `Finalizar Compra`,
+  }).then((result) => {
+
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Gracias por su compra",
+        icon: 'success',
+        text: "Le enviaremos como seguir por mail",
+      })
+      finalizarCompra();
+
+    } else if (result.isDenied) {
+      Swal.fire('Changes are not saved', '', 'info')
+    }
   })
+  dibujarTabla();
 }
 
 
@@ -121,11 +170,11 @@ async function obtenerJSON() {
 
 
 
-botonFinalizar.onclick = () => {
+const finalizarCompra = () => {
   if (carrito.length == 0) {
     Swal.fire({
       title: "El carro está vacío",
-      text: "compre algun producto",
+      text: "Compre algun producto",
       icon: "error",
       showConfirmButton: false,
       timer: 1500,
@@ -135,15 +184,6 @@ botonFinalizar.onclick = () => {
     document.getElementById("tablabody").innerHTML = "";
     let infoTotal = document.getElementById("total");
     infoTotal.innerText = "Total a pagar $: ";
-    Toastify({
-      text: "Pronto recibirá un mail de confirmacion",
-      duration: 3000,
-      gravity: "bottom",
-      position: "left",
-      style: {
-        background: "linear-gradient(to right, #00b09b, #96c92d)",
-      },
-    }).showToast();
   }
 };
 
